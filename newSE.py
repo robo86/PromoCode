@@ -5,8 +5,8 @@ Created on Mon Feb 27 15:52:15 2017
 import time
 
 promocode = input("Enter Promocode: ")
-#opens and reads files into variable 'data'
 
+#opens and reads files into variable 'data'
 prod = open('m:\clothingimport\google_products_file-1.txt', 'r')
 data = prod.read()
 prod.close()
