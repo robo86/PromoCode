@@ -13,8 +13,8 @@ password = 'x'
 driver= '{ODBC Driver 13 for SQL Server}'
 
 promocode = input("Enter Promocode: ")
-#opens and reads files into variable 'data'
 
+#opens and reads files into variable 'data'
 prod = open('m:\clothingimport\google_products_file-1.txt', 'r')
 data = prod.read()
 prod.close()
@@ -47,11 +47,13 @@ print("File ""pft1.txt"" saved in the c:\python directory.")
 
 cnxn = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
 
+#this is how you run a sql statement - in this case a delete statement
 cursor = cnxn.cursor()
 cursor.execute("delete reo_current_google_promo")
 
 print('REO_Current_google_promo Emptied')
 
+#this loops through the csv file created above and inserts each line into the REO... table 
 with open ('c:\python\pf1.csv', 'r') as f:
     reader = csv.reader(f)
     data = next(reader) 
@@ -66,3 +68,4 @@ with open ('c:\python\pf1.csv', 'r') as f:
 print('REO_Current_Google_Promo Updated')
 
 time.sleep(5)
+
