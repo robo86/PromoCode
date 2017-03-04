@@ -12,6 +12,8 @@ username = 'x'
 password = 'x'
 driver= '{ODBC Driver 13 for SQL Server}'
 
+exclude_vendor = ['Specialized','Wahoo Fitness','Keiser','Garmin']
+
 promocode = input("Enter Promocode: ")
 
 #opens and reads files into variable 'data'
@@ -35,14 +37,10 @@ with open("mynew.txt") as input:
 #and promocode with tab between them
 with open('pf1.csv', 'w') as file1:
     for x in range(1,num_lines):
-        if (myList[x][2]) != 'Specialized' and \
-           (myList[x][2]) != 'Wahoo Fitness' and \
-           (myList[x][2]) != 'Keiser' and \
-           (myList[x][2]) != 'Garmin':
-               #print(myList[x][11], promocode, sep = '\t', file = file1)
-               print(myList[x][11], promocode, sep = ',', file = file1)  #comma delim
+        if (myList[x][2]) not in exclude_vendor:
+              print(myList[x][11], promocode, sep = ',', file = file1)  #comma delim
 #just print (OG)#print(myList[x][11],'\t'+promocode)
-            
+#tab delimited print(myList[x][11], promocode, sep = '\t', file = file1)            
 print("File ""pft1.txt"" saved in the c:\python directory.")
 
 cnxn = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
@@ -51,13 +49,13 @@ cnxn = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;D
 cursor = cnxn.cursor()
 cursor.execute("delete reo_current_google_promo")
 
-print('REO_Current_google_promo Emptied')
+print('SQL Table "REO_Current_Google_Promo" Emptied')
 
 #this loops through the csv file created above and inserts each line into the REO... table 
 with open ('c:\python\pf1.csv', 'r') as f:
     reader = csv.reader(f)
     data = next(reader) 
-    query = 'insert into REO_Current_google_promo values ({0})'
+    query = 'insert into REO_Current_Google_Promo values ({0})'
     query = query.format(','.join('?' * len(data)))
     cursor = cnxn.cursor()
     cursor.execute(query, data)
@@ -65,7 +63,7 @@ with open ('c:\python\pf1.csv', 'r') as f:
         cursor.execute(query, data)
     cursor.commit()
 
-print('REO_Current_Google_Promo Updated')
+print('SQL Table "REO_Current_Google_Promo" Updated')
 
 time.sleep(5)
 
