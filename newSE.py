@@ -25,13 +25,13 @@ with open("mynew.txt") as input:
   
 #prints out and saves to file id (part number) 
 #and promocode with tab between them
-with open('pf1.txt', 'w') as file:
+with open('pf1.txt', 'w') as file1:
     for x in range(1,num_lines):
         if (myList[x][2]) != 'Specialized' and \
            (myList[x][2]) != 'Wahoo Fitness' and \
            (myList[x][2]) != 'Keiser' and \
            (myList[x][2]) != 'Garmin':
-               print(myList[x][11], promocode, sep = '\t', file = file)
+               print(myList[x][11], promocode, sep = '\t', file = file1)
 #comma delim   #print(myList[x][11], promocode, sep = '', file = file)  
 #just print (OG)#print(myList[x][11],'\t'+promocode)
             
