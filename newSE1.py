@@ -47,6 +47,7 @@ while True:
 
 promocode = input("\n\nEnter New Promocode: ")
 
+print("Copying googlebase data.")
 #opens and reads files into variable 'data'
 prod = open(main_file, 'r')
 data = prod.read()
@@ -75,17 +76,23 @@ with open('pf1.csv', 'w') as file1:
 #tab delimited print(myList[x][11], promocode, sep = '\t', file = file1)            
 
 #print("File ""pft1.txt"" saved in the c:\python directory.")
-
+print('Done.\n')
+#os.system('cls')
+print('Emptying table "REO_Current_Google_Promo_Code"')
 cnxn = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
 
 #this is how you run a sql statement - in this case a delete statement
 cursor = cnxn.cursor()
 cursor.execute("delete reo_current_google_promo")
 
-print('\n\nSQL Table "REO_Current_Google_Promo" Emptied')
+print('Done\n')
+#os.system('cls')
+print('Updating Table "REO_Current_Google_Promo_Code"')
 
 #this loops through the csv file created above and inserts each line into the REO... table 
+
 with open ('c:\python\pf1.csv', 'r') as f:
+    #x=1
     reader = csv.reader(f)
     data = next(reader) 
     query = 'insert into REO_Current_Google_Promo values ({0})'
@@ -94,8 +101,11 @@ with open ('c:\python\pf1.csv', 'r') as f:
     cursor.execute(query, data)
     for data in reader:
         cursor.execute(query, data)
+        #x=x+1
+        #print(x)
+        #os.system('cls')
     cursor.commit()
 
-print('\nSQL Table "REO_Current_Google_Promo" Updated')
+print('All Done')
 
-time.sleep(5)
+time.sleep(3)
