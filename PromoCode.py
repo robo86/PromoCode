@@ -37,7 +37,7 @@ os.system('cls')
 print('The following brands will be excluded: \n'), print(exclude_vendor)
 
 while True:
-    choice2 = input("\n\nWhich file?\n(a if you want to use default categories.  b if you downloaded a new file) \n\na) google_products_file.txt \nb) google_products_file-1.txt \n\n(type a or b): ")
+    choice2 = input("\n\nWhich file?\na) if you want to use default categories.  b) if you downloaded a new file. \n\na) google_products_file.txt \nb) google_products_file-1.txt \n\n(type a or b): ")
     if choice2 == 'a':
         main_file = 'm:\clothingimport\google_products_file.txt'
         exclude_category =[]
@@ -46,7 +46,19 @@ while True:
         main_file = 'm:\clothingimport\google_products_file-1.txt'
         break
 
-promocode = input("\n\nEnter New Promocode: ")
+cnxn1 = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
+cursor = cnxn1.cursor()
+cursor.execute("SELECT TOP 1 PROMOTION_ID from reo_current_google_promo")
+for row in cursor:
+    current_code = row
+
+print("\n\nThe current promo code is: ",current_code[0])
+choice3 = input("Would you like to change it (y/n)?")
+
+if choice3 == 'y':
+    promocode = input("\n\nEnter New Promocode: ")
+elif choice3 == 'n':
+    promocode = current_code[0]
 
 print("\nCopying googlebase data.")
 #opens and reads files into variable 'data'
