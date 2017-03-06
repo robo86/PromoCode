@@ -46,6 +46,7 @@ while True:
         main_file = 'm:\clothingimport\google_products_file-1.txt'
         break
 
+
 cnxn1 = pyodbc.connect('DRIVER='+driver+';PORT=1433;SERVER='+server+';PORT=1443;DATABASE='+database+';UID='+username+';PWD='+ password)
 cursor = cnxn1.cursor()
 cursor.execute("SELECT TOP 1 PROMOTION_ID from reo_current_google_promo")
@@ -53,13 +54,17 @@ for row in cursor:
     current_code = row
 
 print("\n\nThe current promo code is: ",current_code[0])
-choice3 = input("Would you like to change it (y/n)?")
 
-if choice3 == 'y':
-    promocode = input("\n\nEnter New Promocode: ")
-elif choice3 == 'n':
-    promocode = current_code[0]
-
+#while loop insures that y,Y,n, and N are the only possible responses
+while True:
+    choice3 = input("\nWould you like to change it (y/n)?")
+    if choice3.lower() == 'y':
+        promocode = input("\n\nEnter New Promocode: ")
+        break
+    elif choice3.lower() == 'n':
+        promocode = current_code[0]
+        break
+    
 print("\nCopying googlebase data.")
 #opens and reads files into variable 'data'
 prod = open(main_file, 'r')
